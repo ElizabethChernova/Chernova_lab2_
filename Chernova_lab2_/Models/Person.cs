@@ -17,7 +17,7 @@ namespace Chernova_lab2_.Models
         private Boolean _isAdult;
         private Boolean _hasBirthday;
         private string _chineseSign;
-        private bool isEnable = true;
+    
 
         #endregion
         public Person()
@@ -76,32 +76,16 @@ namespace Chernova_lab2_.Models
             get => _hasBirthday = DateTime.Today.Month == _dateOfBirth.Month && DateTime.Today.Day == _dateOfBirth.Day;
            //   set { _hasBirthday = DateTime.Today.Month == _dateOfBirth.Month && DateTime.Today.Day == _dateOfBirth.Day; }
         }
-        public bool IsEnable
-        {
-            get { return isEnable; }
-            set
-            {
-                isEnable = value;
-               // NotifyPropertyChanged("IsEnable");
-            }
-        }
+      
         public DateTime DateOfBirth
         {
             get { return _dateOfBirth; }
             set {
-                isEnable = false;
-                Task.Run(async()=>await SetNewInfo());
-                isEnable = true;
+            
                 _dateOfBirth = value; }
         }
 
-        private async Task SetNewInfo()
-        {
-           await Task.Run(()=>ZodiacWestern);
-           await Task.Run(()=>ZodiacChineese);
-            await Task.Run(() => IsAdult);
-            await Task.Run(() => HasBirthday);
-        }
+      
 
         public string EmailAddress
         {

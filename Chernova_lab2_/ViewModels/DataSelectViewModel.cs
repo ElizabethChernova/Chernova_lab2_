@@ -16,10 +16,19 @@ namespace Chernova_lab2_.ViewModels
         #region Field
         private Person user = new Person();
         private RelayCommand<object> _selectDateCommand;
-      
+        private bool isEnable = true;
 
         #endregion
         #region Properties
+        public bool IsEnable
+        {
+            get { return isEnable; }
+            set
+            {
+                isEnable = value;
+                NotifyPropertyChanged("IsEnable");
+            }
+        }
         public string Email
         {
             get { return user.EmailAddress; }
@@ -59,21 +68,35 @@ namespace Chernova_lab2_.ViewModels
         public DateTime DateOfBirth
         {
             get { return user.DateOfBirth; }
-            set {  user.DateOfBirth = value; }
-        }
-
-     /*   public DateTime DataOfBirth
-        {
-            get { return user.DataOfBirth; }
-            set { user.DataOfBirth = value;
-            *//*  Age=  CountAge();
-                HasBirthday = DoHaveBirthday();
-                ZodiacChineese = CountChineese();
-                ZodiacWestern = CountWestern();*//*
+            set
+            {
+             
+                     isEnable = false;
+                    Task.Run(async () => await SetNewInfo());
+                    // isEnable = true;
+                    user.DateOfBirth = value;
+                
             }
         }
-*/
-  
+        private async Task SetNewInfo()
+        {
+            await Task.Run(() => ZodiacWestern);
+            await Task.Run(() => ZodiacChineese);
+            await Task.Run(() => IsAdult);
+            await Task.Run(() => HasBirthday);
+        }
+        /*   public DateTime DataOfBirth
+           {
+               get { return user.DataOfBirth; }
+               set { user.DataOfBirth = value;
+               *//*  Age=  CountAge();
+                   HasBirthday = DoHaveBirthday();
+                   ZodiacChineese = CountChineese();
+                   ZodiacWestern = CountWestern();*//*
+               }
+           }
+   */
+
         public string ZodiacChineese
         {
             get { return user.ZodiacChineese; }
