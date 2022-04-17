@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Chernova_lab2_.Models
 {
-    class UserCandidate
+    class Person
     {
         #region Fields
         private string _name;
@@ -17,14 +17,14 @@ namespace Chernova_lab2_.Models
         private Boolean _isAdult;
         private Boolean _hasBirthday;
         private string _chineseSign;
-
+        private bool isEnable = true;
 
         #endregion
-        public UserCandidate()
+        public Person()
         {
         }
 
-        public UserCandidate(string name, string surname, DateTime? dataOfBirth)
+        public Person(string name, string surname, DateTime? dataOfBirth)
         {
             _name = name;
             _surname = surname;
@@ -38,14 +38,14 @@ namespace Chernova_lab2_.Models
             }
         }
 
-        public UserCandidate(string name, string surname, string emailAddress)
+        public Person(string name, string surname, string emailAddress)
         {
             _name = name;
             _surname = surname;
             _emailAddress = emailAddress;
         }
 
-        public UserCandidate(string name, string surname, DateTime? dataOfBirth, string emailAddress)
+        public Person(string name, string surname, DateTime? dataOfBirth, string emailAddress)
         {
             _name = name;
             _surname = surname;
@@ -76,10 +76,22 @@ namespace Chernova_lab2_.Models
             get => _hasBirthday = DateTime.Today.Month == _dateOfBirth.Month && DateTime.Today.Day == _dateOfBirth.Day;
            //   set { _hasBirthday = DateTime.Today.Month == _dateOfBirth.Month && DateTime.Today.Day == _dateOfBirth.Day; }
         }
+        public bool IsEnable
+        {
+            get { return isEnable; }
+            set
+            {
+                isEnable = value;
+               // NotifyPropertyChanged("IsEnable");
+            }
+        }
         public DateTime DateOfBirth
         {
             get { return _dateOfBirth; }
-            set { Task.Run(async()=>await SetNewInfo());
+            set {
+                isEnable = false;
+                Task.Run(async()=>await SetNewInfo());
+                isEnable = true;
                 _dateOfBirth = value; }
         }
 

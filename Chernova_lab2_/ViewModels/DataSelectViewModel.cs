@@ -14,8 +14,9 @@ namespace Chernova_lab2_.ViewModels
     {
 
         #region Field
-        private UserCandidate user = new UserCandidate();
+        private Person user = new Person();
         private RelayCommand<object> _selectDateCommand;
+      
 
         #endregion
         #region Properties
@@ -88,11 +89,14 @@ namespace Chernova_lab2_.ViewModels
                 return _selectDateCommand ??= new RelayCommand<object>(_ => SetData());
             }
         }
-/*
-        private async Task<void> SetDataAsync()
-        {
-            return await Task.Run(()=>SetData());
-        }
+
+    
+
+        /*
+private async Task<void> SetDataAsync()
+{
+return await Task.Run(()=>SetData());
+}
 */
         private void SetData()
         {
