@@ -175,7 +175,7 @@ namespace Chernova_lab2_.Models
         public bool IsRight()
         {
         
-            if (CountAge() < 0 &&( DateTime.Today.Month < DateOfBirth.Month || DateTime.Today.Month == DateOfBirth.Month && DateTime.Today.Day < DateOfBirth.Day) || CountAge() > 135) return false;
+            if (CountAge() < 0||(CountAge() == 0 && DateTime.Today.Month < DateOfBirth.Month || DateTime.Today.Month == DateOfBirth.Month && DateTime.Today.Day < DateOfBirth.Day) || CountAge() > 135) return false;
             return true;
         }
         public Boolean IsAdult
