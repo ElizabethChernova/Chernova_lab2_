@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chernova_lab2_.Tools;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -62,21 +63,37 @@ namespace Chernova_lab2_.Models
         #region Properties
         public string ZodiacWestern
         {
+            //readonly
             get { return _sunSign = CountWestern(); }
-          //  set { _sunSign = value; }
+          
             
         }
         public int Age
         {
-            get => _age = DateTime.Today.Year - _dateOfBirth.Year;
-             set { _age = DateTime.Today.Year - _dateOfBirth.Year; }
+
+            get
+            {
+                int value = DateTime.Today.Year - _dateOfBirth.Year;
+                if (value < 0 || (value == 0 && !IsRight()))
+                    throw new PersonException("Введіть дату народження вже народженої людини", value);
+                if (value > 130)
+                    throw new DeadPersonException("Введіть дату народження ще живої людини", value);
+                else
+                    _age = value;
+                return _age;
+                }
+            set
+            {
+                    _age = value;
+            }
+            
         }
         public Boolean HasBirthday
         {
             get => _hasBirthday = DateTime.Today.Month == _dateOfBirth.Month && DateTime.Today.Day == _dateOfBirth.Day;
-           //   set { _hasBirthday = DateTime.Today.Month == _dateOfBirth.Month && DateTime.Today.Day == _dateOfBirth.Day; }
+            //readonly
         }
-      
+
         public DateTime DateOfBirth
         {
             get { return _dateOfBirth; }
@@ -89,8 +106,30 @@ namespace Chernova_lab2_.Models
 
         public string EmailAddress
         {
-            get { return _emailAddress; }
-            set { _emailAddress = value; }
+            get
+            {
+                return _emailAddress;
+              /*  String value = _emailAddress;
+                if ( value!=null &&(!value.Contains('@') || !value.Contains('.')))
+                {
+                    throw new AdressExeption("Адреса має мати формат: щось@домен.com", _emailAddress);
+                }
+                else
+                {
+                    return value;
+                }*/
+            }
+            set
+            {
+                if (!value.Contains('@') || !value.Contains('.'))
+                {
+                    throw new AdressExeption("Адреса має мати формат: щось@домен.com", value);
+                }
+                else { 
+                _emailAddress = value;
+            }
+        }
+          
         }
         public string Surname
         {
@@ -105,8 +144,8 @@ namespace Chernova_lab2_.Models
         public string ZodiacChineese
         {
             get { return _chineseSign = CountChineese(); }
-           // set { _chineseSign = value; }
-            }
+            //readonly
+        }
 
         #endregion
 
@@ -163,11 +202,7 @@ namespace Chernova_lab2_.Models
             }
         }
 
-       /* private bool DoHaveBirthday()
-        {
-            return HasBirthday = DateTime.Today.Month == DateOfBirth.Month && DateTime.Today.Day == DateOfBirth.Day;
-        }
-*/
+
         private int CountAge()
         {
             return DateTime.Today.Year - DateOfBirth.Year;
@@ -181,7 +216,7 @@ namespace Chernova_lab2_.Models
         public Boolean IsAdult
         {
             get => _isAdult = DateOfBirth.Year>18 &&( DateOfBirth.Month> DateTime.Today.Month || (DateOfBirth.Month == DateTime.Today.Month && DateOfBirth.Day > DateTime.Today.Day));
-           // private set {_isAdult = value; }
+         
         }
     }
   

@@ -31,8 +31,25 @@ namespace Chernova_lab2_.ViewModels
         }
         public string Email
         {
-            get { return user.EmailAddress; }
-            set { user.EmailAddress = value; }
+            get
+            {
+            
+               
+                return user.EmailAddress;
+            }
+
+
+        
+            set
+            {
+                try { user.EmailAddress = value; }
+
+                catch (AdressExeption ex)
+                {
+                    MessageBox.Show($"Помилка: {ex.Message}. Невірне значення: {ex.Value}");
+                  
+                }
+                }
         }
         public string Surname
         {
@@ -57,9 +74,29 @@ namespace Chernova_lab2_.ViewModels
         }
         public int Age
         {
-            get => user.Age;
+            get
+            {
+                int age=0;
+                try
+                {
+                     age= user.Age;
+                }
+
+
+                catch (PersonException ex)
+                {
+                    MessageBox.Show($"Помилка: {ex.Message}. Невірне значення: {ex.Value}");
+                }
+                catch (DeadPersonException ex)
+                {
+                    MessageBox.Show($"Помилка: {ex.Message}. Невірне значення: {ex.Value}");
+                }
+                return age;
+            }
+        
             set { user.Age = value; }
         }
+        
         public Boolean HasBirthday
         {
             get => user.HasBirthday;
@@ -125,23 +162,25 @@ return await Task.Run(()=>SetData());
         {
             NotifyPropertyChanged("Name");
             NotifyPropertyChanged("Surname");
-            NotifyPropertyChanged("Email");
-            NotifyPropertyChanged("Age");
+           
+                NotifyPropertyChanged("Email");
+            
+           
+
+            
+                NotifyPropertyChanged("Age");
+            
+            
             NotifyPropertyChanged("IsAdult");
             NotifyPropertyChanged("ZodiacWestern");
             NotifyPropertyChanged("ZodiacChineese");
-            if (!user.IsRight())
-            {
-                MessageBox.Show("Некоректно обрано дату народження!");
-            }
-            else
-            {
+      
                 if (user.HasBirthday)
                 {
                     MessageBox.Show("З Днем народження!");
                 }
 
-            }
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
